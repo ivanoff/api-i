@@ -1,0 +1,55 @@
+{
+  "name": "create-rest-api",
+  "version": "5.0.1",
+  "description": "Create REST API",
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": {
+    "start": "node example.js",
+    "test": "NODE_ENV=test LOG_LEVEL=error node_modules/.bin/mocha",
+    "coverage": "NODE_ENV=test LOG_LEVEL=error nyc node_modules/.bin/_mocha -- test/*.js",
+    "lint": "eslint src/ --cache --ignore-pattern .gitignore",
+    "fix": "eslint src/ --ignore-pattern .gitignore --fix"
+  },
+  "pre-commit": [
+    "lint"
+  ],
+  "dependencies": {
+    "jsonwebtoken": "^8.4.0",
+    "knex": "^0.16.3",
+    "koa": "^2.7.0",
+    "koa-body": "^4.0.8",
+    "koa-router": "^7.4.0",
+    "md5": "^2.2.1",
+    "uuid": "^3.3.2",
+    "winston": "^3.1.0"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-http": "^4.2.1",
+    "coveralls": "^3.0.2",
+    "eslint": "^5.12.1",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.15.0",
+    "mocha": "^5.2.0",
+    "nyc": "^13.3.0",
+    "pre-commit": "^1.2.2",
+    "sqlite3": "^4.0.6"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ivanoff/create-rest-api.git"
+  },
+  "keywords": [
+    "API",
+    "API SERVER",
+    "REST",
+    "REST API",
+    "REST API SERVER",
+    "RESTful",
+    "RESTful API",
+    "RESTful API SERVER",
+    "HATEOAS"
+  ],
+  "author": "Dimitry Ivanov <2@ivanoff.org.ua> # curl -A cv ivanoff.org.ua"
+}

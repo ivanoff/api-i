@@ -9,19 +9,21 @@ class Models {
   }
 
   async create(name, schema, links) {
-    this.schema[name] = schema;
-    await this.db.schema.createTable(name, (table) => {
-      table.increments('id');
-      table.timestamps();
-      // look Adds an integer column at knexjs.org
+    if (schema) {
+      await this.db.schema.createTable(name, (table) => {
+        table.increments('id');
+        table.timestamps();
+        // look Adds an integer column at knexjs.org
 
-      for (const [key, type] of Object.entries(schema)) {
-        const k = table[type.type || type](key);
-        // Update parameters
-        if (type.required) k.notNullable();
-      }
-    });
-    // console.log(await this.db.table(name).columnInfo());
+        for (const [key, type] of Object.entries(schema)) {
+          const k = table[type.type || type](key);
+          // Update parameters
+          if (type.required) k.notNullable();
+        }
+      });
+    }
+
+    this.schema[name] = schema || await this.db.table(name).columnInfo();
 
     // create link table
     if (links) {

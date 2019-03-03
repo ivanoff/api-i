@@ -47,4 +47,9 @@ module.exports = {
     message: 'Not Found',
   },
 
+  TABLE_EXISTS: {
+    status: 409,
+    message: 'Table already exists',
+  },
+
 };

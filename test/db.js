@@ -84,6 +84,15 @@ describe('DB', () => {
     after(async () => await api.destroy());
 
     it('wrong replace error has stack', async () => {
+      await api.models.db.raw('CREATE TABLE movies (name VARCHAR(255))');
+      try {
+        await api.model('movies', { name: 'string' });
+      } catch(err) {
+        expect(err).to.eql('TABLE_EXISTS');
+      }
+    });
+
+    it('wrong replace error has stack', async () => {
       try {
         await api.models.replace('aa', 1, {bb:2});
       } catch(err) {

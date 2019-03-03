@@ -9,7 +9,11 @@ class Models {
   }
 
   async create(name, schema, links) {
+    const columnInfo = await this.db.table(name).columnInfo();
+
     if (schema) {
+      if (Object.keys(columnInfo).length) throw 'TABLE_EXISTS';
+
       await this.db.schema.createTable(name, (table) => {
         table.increments('id');
         table.timestamps();
@@ -23,7 +27,7 @@ class Models {
       });
     }
 
-    this.schema[name] = schema || await this.db.table(name).columnInfo();
+    this.schema[name] = schema || columnInfo;
 
     // create link table
     if (links) {

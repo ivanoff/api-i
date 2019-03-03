@@ -21,6 +21,12 @@ class LoginController {
     ctx.body = await this.updateUserData(user);
   }
 
+  async register(ctx) {
+    const { login, password } = ctx.request.body;
+    await this.models.login.search({ login });
+    ctx.body = await this.models.insert({ login, password });
+  }
+
   async info(ctx) {
     ctx.body = await this.decoded(ctx.request);
   }

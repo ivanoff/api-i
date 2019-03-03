@@ -3,6 +3,7 @@ const Router = require('koa-router');
 const koaBody = require('koa-body');
 
 const LoginRoute = require('./routes/login');
+const RegisterRoute = require('./routes/register');
 
 const Base = require('./base');
 
@@ -24,6 +25,7 @@ class Api extends Base {
 
     if (this.config.token) {
       this.loginRoute = new LoginRoute(this);
+      this.registerRoute = new RegisterRoute(this);
     } else {
       this.log.warn('No token provided. All models are available without token.');
     }

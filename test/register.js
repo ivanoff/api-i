@@ -1,6 +1,6 @@
 const { expect, request } = require('chai');
 
-describe.skip('Register', () => {
+describe('Register', () => {
   let api;
   let r;
   let token;
@@ -12,6 +12,7 @@ describe.skip('Register', () => {
 
   const credentials = { login: 'test1', password: 'test1' };
   const credentials2 = { login: 'test2', password: 'test2' };
+  const credentialsNoPassword = { login: 'test_no_password' };
 
   before(async () => {
     api = new global.Api(global.config);
@@ -26,6 +27,23 @@ describe.skip('Register', () => {
     it('Register first user', async () => {
       const res = await r().post('/register').send(credentials);
       expect(res).to.have.status(201);
+    });
+  });
+
+  describe('Register errors', () => {
+    it('Register user with no password', async () => {
+      const res = await r().post('/register').send(credentialsNoPassword);
+      expect(res).to.have.status(400);
+    });
+
+    it('Register first user again returns 409', async () => {
+      const res = await r().post('/register').send(credentials);
+      expect(res).to.have.status(409);
+    });
+
+    it('Login with no password', async () => {
+      const res = await r().post('/login').send(credentialsNoPassword);
+      expect(res).to.have.status(400);
     });
   });
 

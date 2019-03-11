@@ -9,10 +9,12 @@
 
 ```npm i -S sqlite3```
 
-config.js
+
+example.js
 
 ```
-module.exports = {
+const Api = require('api-i');
+const config = {
   server: {
     port: 8877,
   },
@@ -20,14 +22,7 @@ module.exports = {
     client: 'sqlite3',
     connection: ':memory:',
   },
-}
-```
-
-example.js
-
-```
-const config = require('./config');
-const Api = require('api-i');
+};
 
 const api = new Api(config);
 

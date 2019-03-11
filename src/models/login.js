@@ -7,19 +7,24 @@ class LoginModel {
   }
 
   async init() {
-    await this.db.schema.createTable(this.name, (table) => {
-      table.increments('id');
-      table.timestamps();
-      table.string('login');
-      table.string('password');
-      table.string('refresh');
-      table.string('name');
-    });
+    const hasUserTable = await this.db.schema.hasTable(this.name);
+    if (!hasUserTable) {
+      await this.db.schema.createTable(this.name, (table) => {
+        table.increments('id');
+        table.timestamps();
+        table.string('login');
+        table.string('password');
+        table.string('refresh');
+        table.string('name');
+      });
+    }
   }
 
   async search({ login, password, refresh }) {
     const pass = password && makeMd5(password);
-    return this.db(this.name).select('*').where(refresh ? { refresh } : { login, password: pass }).first();
+    const where = refresh ? { refresh } : { login };
+    if (password) where.password = pass;
+    return this.db(this.name).select('*').where(where).first();
   }
 
   async insert({ login, password, md5 }) {

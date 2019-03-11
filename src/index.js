@@ -37,6 +37,8 @@ class Api extends Base {
   }
 
   async start() {
+    await this.models.login.init();
+
     this.app.use(this.router.routes());
 
     const { host, port, standalone } = this.config.server;

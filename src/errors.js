@@ -42,6 +42,16 @@ module.exports = {
     message: 'User not found',
   },
 
+  USER_EXISTS: {
+    status: 409,
+    message: 'User already exists',
+  },
+
+  PASSWORD_REQUIRED: {
+    status: 400,
+    message: 'Password required',
+  },
+
   NOT_FOUND: {
     status: 404,
     message: 'Not Found',

@@ -11,6 +11,7 @@ class LoginController {
 
   async login(ctx) {
     const { login, password, refresh } = ctx.request.body;
+    if (login && !password) throw 'PASSWORD_REQUIRED';
     const user = await this.models.login.search({ login, password, refresh });
     ctx.body = await this.updateUserData(user);
   }
@@ -23,8 +24,13 @@ class LoginController {
 
   async register(ctx) {
     const { login, password } = ctx.request.body;
-    await this.models.login.search({ login });
-    ctx.body = await this.models.insert({ login, password });
+    if (login && !password) throw 'PASSWORD_REQUIRED';
+
+    const user = await this.models.login.search({ login });
+    if (user) throw 'USER_EXISTS';
+
+    ctx.status = 201;
+    ctx.body = await this.models.login.insert({ login, password });
   }
 
   async info(ctx) {

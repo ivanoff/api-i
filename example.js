@@ -1,6 +1,25 @@
 'use strict';
-const config = require('./config');
 const Api = require('./src');
+
+const config = {
+
+  server: {
+    host: 'localhost',
+    port: 8877,
+  },
+
+  db: {
+    client: 'sqlite3',
+    connection: ':memory:',
+  },
+
+  token: {
+    secret: 'REPLACE_IT',
+    expire: 10,
+  },
+
+};
+
 const api = new Api(config);
 
 api.user({login: 'l', password: 'p'});

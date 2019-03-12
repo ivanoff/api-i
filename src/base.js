@@ -9,6 +9,31 @@ const routes = require('./routes');
 class Base {
   constructor(config) {
     this.config = config;
+
+    const {
+      TOKEN_SECRET, TOKEN_EXPIRE, LOG_LEVEL,
+      DB_CLIENT, DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME,
+    } = process.env;
+
+    if (DB_CLIENT) {
+      this.config.db = {
+        client: DB_CLIENT,
+        connection: {
+          host: DB_HOST,
+          port: DB_PORT,
+          user: DB_USER,
+          password: DB_PASSWORD,
+          database: DB_NAME,
+        },
+      };
+    }
+
+    if (LOG_LEVEL) this.config.logLevel = LOG_LEVEL;
+
+    if (TOKEN_SECRET || TOKEN_EXPIRE) {
+      this.config.token = { secret: TOKEN_SECRET, expire: TOKEN_EXPIRE };
+    }
+
     this.error = errors;
 
     this.initLog();
@@ -34,7 +59,7 @@ class Base {
 
   initLog() {
     this.log = winston.createLogger({
-      level: process.env.LOG_LEVEL,
+      level: this.config.logLevel,
       format: winston.format.json(),
       transports: [
         new winston.transports.File({ filename: './log/error.log', level: 'error' }),

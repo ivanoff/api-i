@@ -7,8 +7,8 @@ class LoginModel {
   }
 
   async init() {
-    const hasUserTable = await this.db.schema.hasTable(this.name);
-    if (!hasUserTable) {
+    const hasTable = await this.db.schema.hasTable(this.name);
+    if (!hasTable) {
       await this.db.schema.createTable(this.name, (table) => {
         table.increments('id');
         table.timestamps();

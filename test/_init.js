@@ -10,4 +10,5 @@ describe('Init', () => {
   global.Api = Api;
   global.config = config;
   global.configNoToken = {...config, token: undefined};
+  global.configNoDb = {...config, token: undefined, db: undefined};
 })

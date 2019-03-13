@@ -294,4 +294,46 @@ describe('Login', () => {
     });
   });
 
+  describe.skip('Tokens via process.env', () => {
+    before(async () => {
+      process.env.TOKEN_SECRET = 'secret';
+      process.env.TOKEN_EXPIRE = 90;
+
+      api = new global.Api(global.configNoToken);
+      await api.user(credentials);
+      await api.start();
+      r = () => request(api.app.callback());
+
+      delete process.env.TOKEN_SECRET;
+      delete process.env.TOKEN_EXPIRE;
+    });
+
+    after(async () => await api.destroy());
+
+    it('returns 200 status code', async () => {
+      const res = await r().post('/login').send(credentials);
+      expect(res).to.have.status(200);
+    });
+
+    it('has body', async () => {
+      const res = await r().post('/login').send(credentials);
+      expect(res).to.have.property('body');
+    });
+
+    it('returns login', async () => {
+      const res = await r().post('/login').send(credentials);
+    });
+
+    it('login i equal to credentials', async () => {
+      const res = await r().post('/login').send(credentials);
+      expect(res.body.login).to.eql(credentials.login);
+    });
+
+    it('returns refresh token', async () => {
+      const res = await r().post('/login').send(credentials);
+      expect(res.body).to.have.property('refresh');
+      refresh = res.body.refresh;
+    });
+  })
+
 });

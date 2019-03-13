@@ -13,6 +13,7 @@ class Base {
     const {
       TOKEN_SECRET, TOKEN_EXPIRE, LOG_LEVEL,
       DB_CLIENT, DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME,
+      DB_CONNECTION,
     } = process.env;
 
     if (DB_CLIENT) {
@@ -26,6 +27,7 @@ class Base {
           database: DB_NAME,
         },
       };
+      if (DB_CONNECTION) this.config.db.connection = DB_CONNECTION;
     }
 
     if (LOG_LEVEL) this.config.logLevel = LOG_LEVEL;

@@ -3,7 +3,7 @@
   "version": "5.0.1",
   "description": "Create REST API",
   "license": "MIT",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "start": "node example.js",
     "test": "NODE_ENV=test LOG_LEVEL=error node_modules/.bin/mocha",

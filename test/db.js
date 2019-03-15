@@ -76,35 +76,6 @@ describe('DB', () => {
     });
   })
 
-  describe('DB via process.env', () => {
-    const { DB_CLIENT, DB_CONNECTION } = process.env;
-
-    before(async () => {
-      process.env.DB_CLIENT = 'sqlite3';
-      process.env.DB_CONNECTION = ':memory:';
-
-      api = new global.Api(global.configNoDb);
-      await api.model('movies', { name: 'string', rates: 'integer' });
-      await api.start();
-      r = () => request(api.app.callback());
-
-      delete process.env.DB_CLIENT;
-      delete process.env.DB_CONNECTION;
-    });
-
-    after(async () => await api.destroy());
-
-    it('post movies returns 201', async () => {
-      const res = await r().post('/movies').send(movies[0]);
-      expect(res).to.have.status(201);
-    });
-
-    it('get movies returns 200', async () => {
-      const res = await r().get('/movies');
-      expect(res).to.have.status(200);
-    });
-  })
-
   describe('Catch errors', () => {
     before(async () => {
       api = new global.Api(global.configNoToken);

@@ -4,4 +4,4 @@ node_js:
   - "9"
   - "10"
   - "11"
-after_script: NODE_ENV=test istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage
+after_script: nyc mocha --report lcovonly -- test/_init.js test/*.js test/ze_last.js -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage

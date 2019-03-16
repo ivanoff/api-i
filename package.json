@@ -27,7 +27,7 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "chai-http": "^4.2.1",
-    "coveralls": "^3.0.2",
+    "coveralls": "^3.0.3",
     "eslint": "^5.12.1",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.15.0",

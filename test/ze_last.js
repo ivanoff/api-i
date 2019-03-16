@@ -10,20 +10,14 @@ describe('process.env', () => {
   ];
   const credentials = { login: 'test1', password: 'test1' };
 
-  describe('DB via process.env', () => {
-    const { DB_CLIENT, DB_CONNECTION } = process.env;
-
+  describe('Loglevel', () => {
     before(async () => {
-      process.env.DB_CLIENT = 'sqlite3';
-      process.env.DB_CONNECTION = ':memory:';
+      delete process.env.LOG_LEVEL;
 
-      api = new global.Api(global.configNoDb);
+      api = new global.Api(global.configNoToken);
       await api.model('movies', { name: 'string', rates: 'integer' });
       await api.start();
       r = () => request(api.app.callback());
-
-      delete process.env.DB_CLIENT;
-      delete process.env.DB_CONNECTION;
     });
 
     after(async () => await api.destroy());
@@ -31,11 +25,6 @@ describe('process.env', () => {
     it('post movies returns 201', async () => {
       const res = await r().post('/movies').send(movies[0]);
       expect(res).to.have.status(201);
-    });
-
-    it('get movies returns 200', async () => {
-      const res = await r().get('/movies');
-      expect(res).to.have.status(200);
     });
   })
 
@@ -80,5 +69,48 @@ describe('process.env', () => {
       refresh = res.body.refresh;
     });
   })
+
+  describe('DB via process.env', () => {
+    before(async () => {
+      process.env.DB_CLIENT = 'sqlite3';
+      process.env.DB_CONNECTION = ':memory:';
+
+      api = new global.Api(global.configNoDb);
+      await api.model('movies', { name: 'string', rates: 'integer' });
+      await api.start();
+      r = () => request(api.app.callback());
+
+      delete process.env.DB_CLIENT;
+      delete process.env.DB_CONNECTION;
+    });
+
+    after(async () => await api.destroy());
+
+    it('post movies returns 201', async () => {
+      const res = await r().post('/movies').send(movies[0]);
+      expect(res).to.have.status(201);
+    });
+
+    it('get movies returns 200', async () => {
+      const res = await r().get('/movies');
+      expect(res).to.have.status(200);
+    });
+  })
+
+  describe('DB via process.env wit no connection', () => {
+
+    it('post movies returns 201', async () => {
+      process.env.DB_CLIENT = 'mysql';
+      try {
+        api = new global.Api(global.configNoDb);
+      } catch (err) {
+        expect(err.toString()).to.match(/Cannot find module 'mysql'/);
+      } finally {
+        delete process.env.DB_CLIENT;
+      }
+    });
+
+  })
+
 
 });

@@ -6,7 +6,7 @@
   "main": "src/index.js",
   "scripts": {
     "start": "node example.js",
-    "test": "mocha",
+    "test": "mocha test/_init.js test/*.js test/ze_last.js",
     "coverage": "nyc mocha -- test/_init.js test/*.js test/ze_last.js",
     "lint": "eslint src/ --cache --ignore-pattern .gitignore",
     "fix": "eslint src/ --ignore-pattern .gitignore --fix"

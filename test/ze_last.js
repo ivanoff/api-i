@@ -10,7 +10,25 @@ describe('process.env', () => {
   ];
   const credentials = { login: 'test1', password: 'test1' };
 
-  describe('Loglevel', () => {
+  describe('LOG_LEVEL error', () => {
+    before(async () => {
+      process.env.LOG_LEVEL = 'error';
+
+      api = new global.Api(global.configNoToken);
+      await api.model('movies', { name: 'string', rates: 'integer' });
+      await api.start();
+      r = () => request(api.app.callback());
+    });
+
+    after(async () => await api.destroy());
+
+    it('post movies returns 201', async () => {
+      const res = await r().post('/movies').send(movies[0]);
+      expect(res).to.have.status(201);
+    });
+  })
+
+  describe('no LOG_LEVEL', () => {
     before(async () => {
       delete process.env.LOG_LEVEL;
 

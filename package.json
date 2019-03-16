@@ -6,8 +6,8 @@
   "main": "src/index.js",
   "scripts": {
     "start": "node example.js",
-    "test": "NODE_ENV=test LOG_LEVEL=error node_modules/.bin/mocha",
-    "coverage": "NODE_ENV=test LOG_LEVEL=error nyc node_modules/.bin/_mocha -- test/*.js",
+    "test": "mocha",
+    "coverage": "nyc mocha -- test/*.js",
     "lint": "eslint src/ --cache --ignore-pattern .gitignore",
     "fix": "eslint src/ --ignore-pattern .gitignore --fix"
   },

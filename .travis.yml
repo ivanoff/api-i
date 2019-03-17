@@ -4,4 +4,4 @@ node_js:
   - "9"
   - "10"
   - "11"
-after_script: ./node_modules/nyc/bin/nyc.js report --reporter=text-lcov | ./node_modules/coveralls/bin/coveralls.js
+after_script: npm run coverage && ./node_modules/nyc/bin/nyc.js report --reporter=text-lcov | ./node_modules/coveralls/bin/coveralls.js

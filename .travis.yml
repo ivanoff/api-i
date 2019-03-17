@@ -4,4 +4,4 @@ node_js:
   - "9"
   - "10"
   - "11"
-after_script: nyc mocha --report lcovonly -- test/_init.js test/*.js test/ze_last.js -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage
+after_script: ./node_modules/nyc/bin/nyc.js report --reporter=text-lcov | ./node_modules/coveralls/bin/coveralls.js

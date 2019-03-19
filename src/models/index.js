@@ -8,11 +8,25 @@ class Models {
     this.login = new LoginModel(this.db);
   }
 
+  async checkConnection() {
+    let i = 10;
+    while (i--) {
+      try {
+        await this.db.raw('SELECT 1+1');
+        break;
+      } catch (err) {
+        console.log('Waiting for DB...');
+        await new Promise(resolve => setTimeout(resolve, 1000));
+      }
+    }
+  }
+
   async create(name, schema, links) {
     const columnInfo = await this.db.table(name).columnInfo();
 
-    if (schema) {
-      if (Object.keys(columnInfo).length) throw 'TABLE_EXISTS';
+    if (schema && !Object.keys(columnInfo).length) {
+      // TO-DO check schema and columnInfo
+      // if (Object.keys(columnInfo).length) throw 'TABLE_EXISTS';
 
       await this.db.schema.createTable(name, (table) => {
         table.increments('id');

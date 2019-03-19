@@ -39,7 +39,10 @@ class Base {
     this.error = errors;
 
     this.initLog();
-    this.db = Knex(this.config.db);
+
+    this.log.info('Waiting for database...');
+    this.db = Knex({ ...this.config.db, acquireConnectionTimeout: 10000 });
+
     this.freeAccess = {};
 
     this.models = new Models(this.db);

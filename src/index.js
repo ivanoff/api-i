@@ -41,7 +41,7 @@ class Api extends Base {
 
     this.app.use(this.router.routes());
 
-    const { host, port, standalone } = this.config.server;
+    const { host, port = 8877, standalone } = this.config.server || {};
 
     if (standalone) {
       this.log.info('standalone server started');
@@ -59,6 +59,8 @@ class Api extends Base {
 
   async model(name, schema, opt = {}) {
     if (!name) throw new Error(this.error.MODEL_HAS_NO_NAME);
+
+    await this.models.checkConnection();
 
     const { links, openMethods, denyMethods } = opt;
     if (links) this.links.push({ [name]: links });

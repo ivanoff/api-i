@@ -94,6 +94,7 @@ describe('process.env', () => {
       process.env.DB_CONNECTION = ':memory:';
 
       api = new global.Api(global.configNoDb);
+      delete api.config.server;
       await api.model('movies', { name: 'string', rates: 'integer' });
       await api.start();
       r = () => request(api.app.callback());
@@ -115,7 +116,23 @@ describe('process.env', () => {
     });
   })
 
-  describe('DB via process.env wit no connection', () => {
+  describe('DB via process.env with retry', () => {
+
+    it('2 retries', async () => {
+      process.env.DB_CLIENT = 'sqlite3';
+      try {
+        api = new global.Api(global.configNoDb);
+        await api.models.checkConnection(2,2);
+      } catch (err) {
+        expect(err.toString()).to.match(/Database connection error/);
+      } finally {
+        delete process.env.DB_CLIENT;
+      }
+    });
+
+  })
+
+  describe('DB via process.env with no connection', () => {
 
     it('post movies returns 201', async () => {
       process.env.DB_CLIENT = 'mysql';

@@ -8,16 +8,14 @@ class Models {
     this.login = new LoginModel(this.db);
   }
 
-  async checkConnection() {
-    let i = 10;
-    while (i--) {
-      try {
-        await this.db.raw('SELECT 1+1');
-        break;
-      } catch (err) {
-        console.log('Waiting for DB...');
-        await new Promise(resolve => setTimeout(resolve, 1000));
-      }
+  async checkConnection(tries = 10, timeout = 1000) {
+    if (!tries) throw ('Database connection error');
+    try {
+      await this.db.raw('SELECT 1+1');
+    } catch (err) {
+      await new Promise((resolve) => {
+        setTimeout(() => resolve(this.checkConnection(tries - 1, timeout)), timeout);
+      });
     }
   }
 

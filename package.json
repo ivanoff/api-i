@@ -1,6 +1,6 @@
 {
   "name": "api-i",
-  "version": "5.2.1",
+  "version": "5.3.1",
   "description": "Create REST API",
   "license": "MIT",
   "main": "src/index.js",
@@ -15,6 +15,7 @@
     "lint"
   ],
   "dependencies": {
+    "@koa/cors": "^2.2.3",
     "jsonwebtoken": "^8.4.0",
     "knex": "^0.16.3",
     "koa": "^2.7.0",

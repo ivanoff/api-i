@@ -1,4 +1,5 @@
 const Koa = require('koa');
+const cors = require('@koa/cors');
 const Router = require('koa-router');
 const koaBody = require('koa-body');
 
@@ -21,6 +22,7 @@ class Api extends Base {
 
     this.app.use(this.logHandler());
     this.app.use(this.errorHandler.bind(this));
+    this.app.use(cors());
     this.app.use(koaBody());
 
     if (this.config.token) {

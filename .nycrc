@@ -9,7 +9,8 @@
       "coverage",
       "test",
       "example.js",
-      "config.js"
+      "config.js",
+      ".eslintrc.js"
     ],
     "reporter": [
       "html",

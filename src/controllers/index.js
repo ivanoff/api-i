@@ -21,7 +21,7 @@ module.exports = ({ models, log }) => {
         return undefined;
       }));
 
-      const result = data2.filter(item => item && Object.keys(item).length);
+      const result = data2.filter((item) => item && Object.keys(item).length);
       ctx.delayedData[link] = result.length && result;
     }));
 
@@ -44,7 +44,7 @@ module.exports = ({ models, log }) => {
         per_page: 'limit',
       };
 
-      const search = Object.keys(query).filter(key => !key.match(/^_/));
+      const search = Object.keys(query).filter((key) => !key.match(/^_/));
 
       for (const key of search) {
         const word = query[key];
@@ -54,7 +54,7 @@ module.exports = ({ models, log }) => {
       }
 
       const options = Object.keys(query)
-        .filter(key => key.match(/^_/))
+        .filter((key) => key.match(/^_/))
         .reduce((obj, key) => ({ ...obj, [key.substr(1)]: query[key] }), {});
 
       // update aliases
@@ -87,7 +87,7 @@ module.exports = ({ models, log }) => {
       // store linked data
       for (const [key, search] of Object.entries(body)) {
         if (key === 'id' || currentSchema[key] || !models.schema[key]) continue;
-        linkedData[key] = [].concat(search).map(id => (typeof id === 'number' ? { id } : id));
+        linkedData[key] = [].concat(search).map((id) => (typeof id === 'number' ? { id } : id));
         delete body[key];
       }
 

@@ -1,4 +1,3 @@
-
 module.exports = ({ models, log }) => {
   // insert linked data if it is exists in linked table, store it in delayed otherwise
   async function processLinked(ctx) {
@@ -28,7 +27,7 @@ module.exports = ({ models, log }) => {
     if (Object.keys(ctx.delayedData).length) log.info('delayed linked data:', ctx.delayedData);
   }
 
-  return (name, link) => ({
+  return (name, link, updateGet) => ({
     get: async (ctx) => {
       const { id } = ctx.params;
       const { query } = ctx.request;
@@ -70,7 +69,9 @@ module.exports = ({ models, log }) => {
 
       if (id && !link && !data[0]) throw 'NOT_FOUND';
 
-      ctx.body = id && !link ? data[0] : data;
+      const modifiedData = updateGet && updateGet(data);
+      const globalModifiedData = ctx.config.updateGet && ctx.config.updateGet(data);
+      ctx.body = id && !link ? data[0] : (modifiedData || globalModifiedData || data);
     },
 
     post: async (ctx) => {

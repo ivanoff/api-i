@@ -64,16 +64,26 @@ class Api extends Base {
 
     await this.models.checkConnection();
 
-    const { links, openMethods, denyMethods } = opt;
+    const {
+      links, openMethods, denyMethods, updateGet,
+    } = opt;
     if (links) this.links.push({ [name]: links });
 
     const security = this.security(openMethods, denyMethods);
 
     await Promise.all([
-      this.routes(name, this.router, this.controllers, links, security),
+      this.routes(name, this.router, this.controllers, links, security, updateGet),
       this.models.create(name, schema, links),
     ]);
     this.log.info(`${name} model registered`);
+  }
+
+  async initData(name, data = []) {
+    const jobs = [];
+    for (const body of data) {
+      jobs.push(this.models.db(name).insert(body));
+    }
+    await Promise.all(jobs);
   }
 
   async user({ login, password, md5 } = {}) {

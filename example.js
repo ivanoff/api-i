@@ -18,19 +18,30 @@ const config = {
     expire: 10,
   },
 
+  updateGet: (...raw) => ({raw}),
 };
+
+const updateGet = (...data) => ({ data});
 
 const api = new Api(config);
 
-api.user({login: 'l', password: 'p'});
+(async () => {
+  await api.user({login: 'l', password: 'p'});
 
-api.model('books', { name: 'string' }, { links: 'writers' });
+  await api.model('books', { name: 'string' }, { links: 'writers', openMethods: ['GET', 'POST', 'DELETE'], updateGet});
 
-api.model('writers', { name: 'string', birth: { type: 'date', required: true } });
+  await api.model('writers', { name: 'string', birth: { type: 'date', required: true } }, { openMethods: ['GET', 'POST', 'DELETE'] });
 
-api.model('coments', { name: 'string', comment: 'string' }, { links: ['writers', 'books'], openMethods: ['GET', 'POST'] });
+  await api.model('coments', { name: 'string', comment: 'string' }, { links: ['writers', 'books'], openMethods: ['GET', 'POST', 'DELETE'] });
 
-api.start();
+  await api.start();
+
+  await api.initData('books', [
+    {name: 'name 1'},
+    {name: 'name 2'},
+    {name: 'name 3'},
+  ])
+})();
 
 /**
 //=== CREATE TABLES ===

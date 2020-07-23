@@ -1,6 +1,6 @@
 {
   "name": "api-i",
-  "version": "5.4.1",
+  "version": "7.0.1",
   "description": "Create REST API",
   "license": "MIT",
   "main": "src/index.js",
@@ -15,27 +15,27 @@
     "lint"
   ],
   "dependencies": {
-    "@koa/cors": "^3.0.0",
+    "@koa/cors": "^3.1.0",
     "jsonwebtoken": "^8.5.1",
     "knex": "^0.19.3",
-    "koa": "^2.8.1",
-    "koa-body": "^4.1.1",
+    "koa": "^2.13.0",
+    "koa-body": "^4.2.0",
     "koa-router": "^7.4.0",
     "md5": "^2.2.1",
-    "uuid": "^3.3.3",
-    "winston": "^3.2.1"
+    "uuid": "^3.4.0",
+    "winston": "^3.3.3"
   },
   "devDependencies": {
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
-    "coveralls": "^3.0.6",
-    "eslint": "^6.3.0",
-    "eslint-config-airbnb-base": "^14.0.0",
-    "eslint-plugin-import": "^2.18.2",
-    "mocha": "^6.2.0",
+    "coveralls": "^3.1.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.0",
+    "mocha": "^6.2.3",
     "nyc": "^14.1.1",
     "pre-commit": "^1.2.2",
-    "sqlite3": "^4.1.0"
+    "sqlite3": "^4.2.0"
   },
   "repository": {
     "type": "git",

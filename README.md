@@ -7,7 +7,7 @@
 
 # API-I
 
-### v.5.4.1
+### v.7.0.1
 
 ## Example
 
@@ -28,16 +28,49 @@ const config = {
     client: 'sqlite3',
     connection: ':memory:',
   },
+  updateGet: (...raw) => ({raw}),
 };
 
 const api = new Api(config);
 
-api.model('books', { name: 'string' }, { links: 'writers' });
-api.model('writers', { name: 'string', birth: { type: 'date', required: true } });
+const updateGet = (...data) => ({ data});
 
-api.start();
+(async () => {
+  await api.model('books', { name: 'string' }, { links: 'writers', openMethods: ['GET', 'POST', 'DELETE'], updateGet });
+  await api.model('writers', { name: 'string', birth: { type: 'date', required: true } });
+
+  await api.start();
+
+  await api.initData('books', [
+    {name: "Alice's Adventures in Wonderland"},
+    {name: "Moby-Dick; or, The Whale"},
+  ])
+})();
 
 ```
+
+### GET request example
+
+```curl localhost:8877/books```
+
+```{"data":[[{"id":1,"created_at":null,"updated_at":null,"name":"Alice's Adventures in Wonderland"},{"id":2,"created_at":null,"updated_at":null,"name":"Moby-Dick; or, The Whale"}]]}```
+
+### GET by id
+
+```curl localhost:8877/books/2```
+
+```{"id":2,"created_at":null,"updated_at":null,"name":"Moby-Dick; or, The Whale"}```
+
+
+### POST request example
+
+```curl -X POST -d '{"name":"Les Trois Mousquetaires"}' --header "Content-Type: application/json" localhost:8877/books```
+
+```{"id":3}```
+
+### DELETE request example
+
+```curl -X DELETE localhost:8877/books/2```
 
 ## Created by
 

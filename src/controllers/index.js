@@ -27,7 +27,7 @@ module.exports = ({ models, log }) => {
     if (Object.keys(ctx.delayedData).length) log.info('delayed linked data:', ctx.delayedData);
   }
 
-  return (name, link, { updateGet, updateGetOne }) => ({
+  return (name, link, { updateGet, updateGetOne } = {}) => ({
     get: async (ctx) => {
       const { id } = ctx.params;
       const { updateQuery } = ctx.config;

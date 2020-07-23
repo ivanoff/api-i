@@ -1,5 +1,5 @@
-module.exports = (name, app, controller, links, security, updateGet) => {
-  const c = controller(name, undefined, updateGet);
+module.exports = (name, app, controller, links, security, updateGet, updateGetOne) => {
+  const c = controller(name, undefined, { updateGet, updateGetOne });
 
   const path = `/${name}`;
   const pathId = `${path}/:id`;
@@ -44,8 +44,8 @@ module.exports = (name, app, controller, links, security, updateGet) => {
 
   if (links) {
     for (const link of [].concat(links)) {
-      const c1 = controller(name, link, updateGet);
-      const c2 = controller(link, name, updateGet);
+      const c1 = controller(name, link, { updateGet, updateGetOne });
+      const c2 = controller(link, name, { updateGet, updateGetOne });
       const pathIdlinked1 = `/${name}/:id/${link}`;
       const pathIdlinked2 = `/${link}/:id/${name}`;
       app.use(pathIdlinked1, security);

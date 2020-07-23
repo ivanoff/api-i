@@ -27,10 +27,10 @@ module.exports = ({ models, log }) => {
     if (Object.keys(ctx.delayedData).length) log.info('delayed linked data:', ctx.delayedData);
   }
 
-  return (name, link, updateGet) => ({
+  return (name, link, { updateGet, updateGetOne }) => ({
     get: async (ctx) => {
       const { id } = ctx.params;
-      const { updateQuery, updateQueryOne } = ctx.config;
+      const { updateQuery } = ctx.config;
       const query = updateQuery ? updateQuery(ctx.request.query) : ctx.request.query;
       const where = id ? { id } : {};
       const like = {};
@@ -71,7 +71,7 @@ module.exports = ({ models, log }) => {
       if (id && !link && !data[0]) throw 'NOT_FOUND';
 
       let dataOne = id && !link && data[0];
-      dataOne = updateQueryOne && dataOne ? updateQueryOne(dataOne) : dataOne;
+      dataOne = updateGetOne && dataOne ? updateGetOne(dataOne) : dataOne;
       const modifiedData = updateGet && updateGet(data);
       const globalModifiedData = ctx.config.updateGet && ctx.config.updateGet(data);
       ctx.body = dataOne || modifiedData || globalModifiedData || data;

@@ -18,7 +18,7 @@ const config = {
     expire: 10,
   },
 
-  updateGet: (...raw) => ({raw}),
+//  updateGet: (...raw) => ({raw}),
 };
 
 const updateGet = (...data) => ({ data});

@@ -30,7 +30,8 @@ module.exports = ({ models, log }) => {
   return (name, link, updateGet) => ({
     get: async (ctx) => {
       const { id } = ctx.params;
-      const { query } = ctx.request;
+      const { updateQuery } = ctx.config;
+      const query = updateQuery ? updateQuery(ctx.request.query) : ctx.request.query;
       const where = id ? { id } : {};
       const like = {};
       const regex = {};

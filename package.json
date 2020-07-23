@@ -1,6 +1,6 @@
 {
   "name": "api-i",
-  "version": "7.2.1",
+  "version": "7.3.1",
   "description": "Create REST API",
   "license": "MIT",
   "main": "src/index.js",

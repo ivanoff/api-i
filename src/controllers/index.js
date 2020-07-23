@@ -30,7 +30,7 @@ module.exports = ({ models, log }) => {
   return (name, link, updateGet) => ({
     get: async (ctx) => {
       const { id } = ctx.params;
-      const { updateQuery } = ctx.config;
+      const { updateQuery, updateQueryOne } = ctx.config;
       const query = updateQuery ? updateQuery(ctx.request.query) : ctx.request.query;
       const where = id ? { id } : {};
       const like = {};
@@ -70,9 +70,11 @@ module.exports = ({ models, log }) => {
 
       if (id && !link && !data[0]) throw 'NOT_FOUND';
 
+      let dataOne = id && !link && data[0];
+      dataOne = updateQueryOne && dataOne ? updateQueryOne(dataOne) : dataOne;
       const modifiedData = updateGet && updateGet(data);
       const globalModifiedData = ctx.config.updateGet && ctx.config.updateGet(data);
-      ctx.body = id && !link ? data[0] : (modifiedData || globalModifiedData || data);
+      ctx.body = dataOne || modifiedData || globalModifiedData || data;
     },
 
     post: async (ctx) => {

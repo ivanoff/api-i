@@ -22,7 +22,7 @@ class Api extends Base {
 
     this.app.use(this.logHandler());
     this.app.use(this.errorHandler.bind(this));
-    this.app.use(cors());
+    this.app.use(cors(this.config.corsOptions || {}));
     this.app.use(koaBody());
 
     if (this.config.token) {

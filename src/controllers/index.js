@@ -27,7 +27,9 @@ module.exports = ({ models, log }) => {
     if (Object.keys(ctx.delayedData).length) log.info('delayed linked data:', ctx.delayedData);
   }
 
-  return (name, link, { updateGet, updateGetOne } = {}) => ({
+  return (name, link, {
+    updateGet, updateGetOne, updatePost, updateDelete, updatePut, updatePatch,
+  } = {}) => ({
     get: async (ctx) => {
       const { id } = ctx.params;
       const { updateQuery } = ctx.config;
@@ -107,20 +109,22 @@ module.exports = ({ models, log }) => {
 
       ctx.status = 201;
       ctx.location = `/${realName}/${result1.id}`;
-      ctx.body = result1;
+      ctx.body = updatePost ? updatePost(result1) : result1;
     },
 
     replace: async (ctx) => {
       await models.replace(name, ctx.params.id, ctx.request.body);
-      ctx.body = ctx.params;
+      ctx.body = updatePut ? updatePut(ctx.params) : ctx.params;
     },
 
     update: async (ctx) => {
-      ctx.body = await models.update(name, ctx.params.id, ctx.request.body);
+      const result = await models.update(name, ctx.params.id, ctx.request.body);
+      ctx.body = updatePatch ? updatePatch(result) : result;
     },
 
     delete: async (ctx) => {
-      ctx.body = await models.delete(name, ctx.params.id);
+      const result = await models.delete(name, ctx.params.id);
+      ctx.body = updateDelete ? updateDelete(result) : result;
     },
 
   });

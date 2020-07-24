@@ -66,13 +66,15 @@ class Api extends Base {
 
     const {
       links, openMethods, denyMethods, updateGet, updateGetOne,
+      updatePost, updateDelete, updatePut, updatePatch,
     } = opt;
     if (links) this.links.push({ [name]: links });
 
     const security = this.security(openMethods, denyMethods);
 
     await Promise.all([
-      this.routes(name, this.router, this.controllers, links, security, updateGet, updateGetOne),
+      this.routes(name, this.router, this.controllers, links, security,
+        updateGet, updateGetOne, updatePost, updateDelete, updatePut, updatePatch),
       this.models.create(name, schema, links),
     ]);
     this.log.info(`${name} model registered`);

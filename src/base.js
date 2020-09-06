@@ -63,6 +63,15 @@ class Base {
   }
 
   initLog() {
+    if (this.config.silence) {
+      this.log = {
+        info: () => {},
+        warn: () => {},
+        debug: () => {},
+        error: () => {},
+      };
+      return;
+    }
     this.log = winston.createLogger({
       level: this.config.logLevel,
       format: winston.format.json(),

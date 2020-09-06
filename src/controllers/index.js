@@ -70,7 +70,7 @@ module.exports = ({ models, log }) => {
         name, link, where, like, regex, ...options,
       });
 
-      if (id && !link && !data[0]) throw 'NOT_FOUND';
+      if (id && !link && !data[0]) throw new Error('NOT_FOUND');
 
       let dataOne = id && !link && data[0];
       dataOne = updateGetOne && dataOne ? updateGetOne(dataOne) : dataOne;

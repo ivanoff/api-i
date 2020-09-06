@@ -9,7 +9,7 @@ const RegisterRoute = require('./routes/register');
 const Base = require('./base');
 
 class Api extends Base {
-  constructor(config) {
+  constructor(config = {}) {
     super(config);
     this.links = [];
 

@@ -28,8 +28,6 @@ class Api extends Base {
     if (this.config.token) {
       this.loginRoute = new LoginRoute(this);
       this.registerRoute = new RegisterRoute(this);
-    } else {
-      this.log.warn('No token provided. All models are available without token.');
     }
   }
 
@@ -70,7 +68,7 @@ class Api extends Base {
     } = opt;
     if (links) this.links.push({ [name]: links });
 
-    const security = this.security(openMethods, denyMethods);
+    const security = this.config.token && this.security(openMethods, denyMethods);
 
     await Promise.all([
       this.routes(name, this.router, this.controllers, links, security,

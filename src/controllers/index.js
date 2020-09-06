@@ -32,7 +32,7 @@ module.exports = ({ models, log }) => {
   } = {}) => ({
     get: async (ctx) => {
       const { id } = ctx.params;
-      const { updateQuery } = ctx.config;
+      const { updateQuery } = ctx.config || {};
       const query = updateQuery ? updateQuery(ctx.request.query) : ctx.request.query;
       const where = id ? { id } : {};
       const like = {};
@@ -75,7 +75,7 @@ module.exports = ({ models, log }) => {
       let dataOne = id && !link && data[0];
       dataOne = updateGetOne && dataOne ? updateGetOne(dataOne) : dataOne;
       const modifiedData = updateGet && updateGet(data);
-      const globalModifiedData = ctx.config.updateGet && ctx.config.updateGet(data);
+      const globalModifiedData = ctx.config && ctx.config.updateGet && ctx.config.updateGet(data);
       ctx.body = dataOne || modifiedData || globalModifiedData || data;
     },
 

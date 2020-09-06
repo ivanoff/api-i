@@ -133,7 +133,7 @@ class Base {
     return async (ctx, next) => {
       let currentUser;
       const token = ctx.request.headers['x-access-token'] || ctx.request.query.token || ctx.request.body.token;
-      const { secret } = ctx.config.token || {};
+      const { secret } = ctx.config && ctx.config.token ? ctx.config.token : {};
 
       if (token && secret) {
         delete ctx.request.query.token;

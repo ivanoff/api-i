@@ -11,12 +11,14 @@ module.exports = (name, app, controller, links, security,
   const ourPath = `/our/:group${path}`;
   const ourPathId = `/our/:group${pathId}`;
 
-  app.use(path, security);
-  app.use(pathId, security);
-  app.use(myPath, security);
-  app.use(myPathId, security);
-  app.use(ourPath, security);
-  app.use(ourPathId, security);
+  if (security) {
+    app.use(path, security);
+    app.use(pathId, security);
+    app.use(myPath, security);
+    app.use(myPathId, security);
+    app.use(ourPath, security);
+    app.use(ourPathId, security);
+  }
 
   app.get(path, c.get);
   app.post(path, c.post);
@@ -27,23 +29,25 @@ module.exports = (name, app, controller, links, security,
   app.put(pathId, c.replace);
   app.delete(pathId, c.delete);
 
-  app.get(myPath, c.get);
-  app.post(myPath, c.post);
-  app.delete(myPath, c.delete);
+  if (security) {
+    app.get(myPath, c.get);
+    app.post(myPath, c.post);
+    app.delete(myPath, c.delete);
 
-  app.get(myPathId, c.get);
-  app.patch(myPathId, c.update);
-  app.put(myPathId, c.replace);
-  app.delete(myPathId, c.delete);
+    app.get(myPathId, c.get);
+    app.patch(myPathId, c.update);
+    app.put(myPathId, c.replace);
+    app.delete(myPathId, c.delete);
 
-  app.get(ourPath, c.get);
-  app.post(ourPath, c.post);
-  app.delete(ourPath, c.delete);
+    app.get(ourPath, c.get);
+    app.post(ourPath, c.post);
+    app.delete(ourPath, c.delete);
 
-  app.get(ourPathId, c.get);
-  app.patch(ourPathId, c.update);
-  app.put(ourPathId, c.replace);
-  app.delete(ourPathId, c.delete);
+    app.get(ourPathId, c.get);
+    app.patch(ourPathId, c.update);
+    app.put(ourPathId, c.replace);
+    app.delete(ourPathId, c.delete);
+  }
 
   if (links) {
     for (const link of [].concat(links)) {
@@ -55,8 +59,10 @@ module.exports = (name, app, controller, links, security,
       });
       const pathIdlinked1 = `/${name}/:id/${link}`;
       const pathIdlinked2 = `/${link}/:id/${name}`;
-      app.use(pathIdlinked1, security);
-      app.use(pathIdlinked2, security);
+      if (security) {
+        app.use(pathIdlinked1, security);
+        app.use(pathIdlinked2, security);
+      }
 
       app.get(pathIdlinked1, c1.get);
       app.get(pathIdlinked2, c2.get);

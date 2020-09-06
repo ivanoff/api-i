@@ -41,7 +41,7 @@ class Base {
     this.initLog();
 
     this.log.info('Waiting for database...');
-    this.db = Knex({ ...this.config.db, acquireConnectionTimeout: 10000 });
+    this.db = config.db || Knex({ ...this.config.db, acquireConnectionTimeout: 10000 });
 
     this.freeAccess = {};
 

@@ -16,7 +16,7 @@
   ],
   "dependencies": {
     "@koa/cors": "^3.1.0",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "knex": "^0.19.3",
     "koa": "^2.13.0",
     "koa-body": "^4.2.0",
